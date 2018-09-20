@@ -110,8 +110,10 @@
     win_shell: NetSh Advfirewall set allprofiles state off
   - name: Set up path for ovn
     win_shell: setx PATH "C:\Program Files\Cloudbase Solutions\Open vSwitch\bin;$env:path" -m
-  - name: Start ovs service
-    win_shell: Start-Service ovs-vswitchd
+  - name: Ensure ovs service is started
+    win_service:
+      name: ovs-vswitchd
+      state: started
 # Setup the network on windows machines
 - hosts: windows
   gather_facts: no
