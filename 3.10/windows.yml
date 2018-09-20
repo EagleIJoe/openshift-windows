@@ -90,22 +90,13 @@
     win_file:
        path: c:\k
        state: directory
-  - name: Install Package Manager
-    win_shell: Set-ExecutionPolicy Bypass -Scope Process -Force; iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
   - name: Install 7zip
-    win_shell: choco install 7zip.portable -y
-  - name: Install Vim
-    win_shell: choco install vim -y
-    retries: 3
-    delay: 5
-  - name: Install git
-    win_shell: choco install git -y
-    retries: 3
-    delay: 5
-  - name: Install wget
-    win_shell: choco install wget -y
-    retries: 3
-    delay: 5
+    win_chocolatey:
+      name: {{ items }}
+    with_items:
+    - 7zip.portable
+    - vim
+    - git
   - name: Pull down hybrid directoy
     win_shell: git clone {{theRepo}}  c:\k\hybrid
     ignore_errors: yes
